@@ -1,0 +1,8 @@
+# The usual flags.
+build --copt=-Werror
+build --copt=-Wall
+
+# The FFI requires C++20.
+build --cxxopt=-std=c++20
+build --host_cxxopt=-std=c++20
+build --per_file_copt=.*\.mm\$@-std=c++20
