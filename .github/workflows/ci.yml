@@ -23,7 +23,7 @@ jobs:
           disk-cache: ${{ matrix.os }}
           repository-cache: true
       - name: Build Userspace
-        run: bazel build --verbose_failures -c opt //...
+        run: bazel build --verbose_failures --sandbox_debug -c opt //...
   unit_tests:
     strategy:
       fail-fast: false
@@ -39,4 +39,4 @@ jobs:
           disk-cache: ${{ matrix.os }}
           repository-cache: true
       - name: Run All Tests
-        run: bazel test --verbose_failures --test_output=all //...
+        run: bazel test --verbose_failures --sandbox_debug --test_output=all //...
