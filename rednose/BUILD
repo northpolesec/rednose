@@ -12,9 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+load("@//:rust.bzl", "rust_cxx_bridge")
 load("@crate_index//:defs.bzl", "aliases", "all_crate_deps")
-load("@rules_cc//cc:defs.bzl", "objc_library")
+load("@rules_cc//cc:defs.bzl", "objc_library", "cc_test")
 load("@rules_rust//rust:defs.bzl", "rust_static_library", "rust_test")
+
+rust_cxx_bridge(
+    name = "export_bridge",
+    src = "src/export/bridge.rs",
+    deps = [
+        ":rednose_static",
+    ],
+)
 
 objc_library(
     name = "macos_logging",
@@ -22,11 +31,26 @@ objc_library(
     hdrs = ["src/logging/macos_logging.h"],
 )
 
+cc_test(
+    name = "export_bridge_test",
+    srcs = ["src/export/export_bridge_test.cc"],
+    deps = [
+        ":export_bridge",
+        ":rednose_static",
+        "@googletest//:gtest",
+        "@googletest//:gtest_main",
+    ],
+)
+
 rust_static_library(
     name = "rednose_static",
     srcs = glob(["src/**/*.rs"]),
-    edition = "2024",
-    deps = [
+    proc_macro_deps = all_crate_deps(
+        proc_macro = True,
+    ),
+    deps = all_crate_deps(
+        normal = True,
+    ) + [
         ":macos_logging",
     ],
 )
