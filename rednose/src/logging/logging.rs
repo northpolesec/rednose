@@ -15,6 +15,7 @@
 use std::ffi::CString;
 use std::os::raw::c_char;
 
+/// Internal log level
 #[repr(u8)]
 pub enum LogLevel {
     Debug = 0,
@@ -27,6 +28,7 @@ unsafe extern "C" {
     fn macos_log(level: u8, message: *const c_char);
 }
 
+/// Per platform log wrapper
 pub fn log_entry(log_level: LogLevel, args: std::fmt::Arguments) {
     let message = std::fmt::format(args);
 
