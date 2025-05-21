@@ -29,6 +29,10 @@ objc_library(
     name = "macos_logging",
     srcs = ["src/logging/macos_logging.mm"],
     hdrs = ["src/logging/macos_logging.h"],
+    target_compatible_with = select({
+        "@platforms//os:osx": [],
+        "//conditions:default": ["@platforms//:incompatible"],
+    }),
 )
 
 cc_test(
@@ -50,9 +54,12 @@ rust_static_library(
     ),
     deps = all_crate_deps(
         normal = True,
-    ) + [
-        ":macos_logging",
-    ],
+    ) + select({
+        "@platforms//os:osx": [
+            ":macos_logging",
+        ],
+        "//conditions:default": [],
+    }),
 )
 
 rust_test(
