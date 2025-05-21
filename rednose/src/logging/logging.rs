@@ -64,42 +64,51 @@ fn level_to_string_generic(log_level: LogLevel) -> &'static str {
     }
 }
 
+/// Log a debug message
 #[macro_export]
 macro_rules! rlog_debug {
-    ($($arg:tt)+) => (
-        use $crate::logging::logging;
-        logging::log_entry(logging::LogLevel::Debug, format_args!($($arg)+))
-    );
+    ($($arg:tt)+) => {
+        $crate::logging::logging::log_entry($crate::logging::logging::LogLevel::Debug, format_args!($($arg)+))
+    };
 }
 
+/// Log an info message
 #[macro_export]
 macro_rules! rlog_info {
-    ($($arg:tt)+) => (
-        logging::log_entry(logging::LogLevel::Info, format_args!($($arg)+))
-    );
+    ($($arg:tt)+) => {
+        $crate::logging::logging::log_entry($crate::logging::logging::LogLevel::Info, format_args!($($arg)+))
+    };
 }
 
+/// Log a default message
 #[macro_export]
 macro_rules! rlog {
-    ($($arg:tt)+) => (
-        logging::log_entry(logging::LogLevel::Default, format_args!($($arg)+))
-    );
+    ($($arg:tt)+) => {
+        $crate::logging::logging::log_entry($crate::logging::logging::LogLevel::Default, format_args!($($arg)+))
+    };
 }
 
+/// Log an error message
 #[macro_export]
 macro_rules! rlog_error {
-    ($($arg:tt)+) => (
-        logging::log_entry(logging::LogLevel::Error, format_args!($($arg)+))
-    );
+    ($($arg:tt)+) => {
+        $crate::logging::logging::log_entry($crate::logging::logging::LogLevel::Error, format_args!($($arg)+))
+    };
 }
 
 #[cfg(test)]
 mod tests {
     #[test]
     fn test_logging() {
-        rlog_debug!("Hey debug");
-        rlog_info!("Hey info");
-        rlog!("Hey default");
-        rlog_error!("Hey error");
+        super::log_entry(super::LogLevel::Debug, format_args!("Hey debug"));
+        super::log_entry(super::LogLevel::Info, format_args!("Hey info"));
+        super::log_entry(super::LogLevel::Default, format_args!("Hey default"));
+        super::log_entry(super::LogLevel::Error, format_args!("Hey error"));
+
+        // Test the macros
+        crate::rlog_debug!("Hey debug macro");
+        crate::rlog_info!("Hey info macro");
+        crate::rlog!("Hey default macro");
+        crate::rlog_error!("Hey error macro");
     }
 }
