@@ -12,5 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod bridge;
-pub mod export;
+use crate::export::export::export_file;
+
+#[cxx::bridge(namespace = "rednose")]
+mod ffi {
+    extern "Rust" {
+        fn export_file(fd: i32) -> bool;
+    }
+}

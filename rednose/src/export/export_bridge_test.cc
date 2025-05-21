@@ -12,5 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod bridge;
-pub mod export;
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
+#include "rednose/src/export/bridge.rs.h"
+
+TEST(ExportBridgeFFI, ExportBasic) {
+  EXPECT_TRUE(rednose::export_file(1));
+}

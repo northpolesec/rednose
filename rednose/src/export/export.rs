@@ -14,7 +14,7 @@
 
 use crate::logging::*;
 
-pub fn export_file(_: i32) -> bool {
-    rlog!("exporting..");
+pub fn export_file(fd: i32) -> bool {
+    rlog!("exporting fd: {fd}");
     true
 }
