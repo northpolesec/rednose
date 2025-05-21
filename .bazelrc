@@ -1,6 +1,13 @@
+common --enable_platform_specific_config
+
 # The usual flags.
-build --copt=-Werror
-build --copt=-Wall
+build:macos --copt=-Werror
+build:macos --copt=-Wall
+
+build:linux --copt=-Werror
+build:linux --copt=-Wall
+
+build:windows --copt=/WX
 
 # The FFI requires C++20.
 build --cxxopt=-std=c++20

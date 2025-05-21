@@ -3,13 +3,9 @@ on:
   push:
     branches:
       - "*"
-    paths:
-      - "rednose/**"
   pull_request:
     branches:
       - main
-    paths:
-      - "rednose/**"
 
 jobs:
   build_userspace:
@@ -27,7 +23,7 @@ jobs:
           disk-cache: ${{ matrix.os }}
           repository-cache: true
       - name: Build Userspace
-        run: bazel build -c opt //...
+        run: bazel build --verbose_failures -c opt //...
   unit_tests:
     strategy:
       fail-fast: false
@@ -43,4 +39,4 @@ jobs:
           disk-cache: ${{ matrix.os }}
           repository-cache: true
       - name: Run All Tests
-        run: bazel test --test_output=all //...
+        run: bazel test --verbose_failures --test_output=all //...
