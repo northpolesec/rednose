@@ -44,6 +44,14 @@ cc_test(
         "@googletest//:gtest",
         "@googletest//:gtest_main",
     ],
+    linkopts = select({
+        "@platforms//os:windows": [
+            "kernel32.lib",
+            "user32.lib",
+            "shell32.lib",
+        ],
+        "//conditions:default": [],
+    }),
 )
 
 rust_static_library(

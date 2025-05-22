@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#[cfg(target_os = "macos")]
 use std::ffi::CString;
 use std::os::raw::c_char;
 
@@ -25,6 +26,7 @@ pub enum LogLevel {
 }
 
 unsafe extern "C" {
+    #[cfg(target_os = "macos")]
     fn macos_log(level: u8, message: *const c_char);
 }
 
