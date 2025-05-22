@@ -14,6 +14,7 @@
 
 #[cfg(target_os = "macos")]
 use std::ffi::CString;
+#[cfg(target_os = "macos")]
 use std::os::raw::c_char;
 
 /// Internal log level
