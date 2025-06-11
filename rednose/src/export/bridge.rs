@@ -12,11 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::export::export::export_file;
+use crate::export::export::export_file_aws;
 
 #[cxx::bridge(namespace = "rednose")]
 mod ffi {
+    enum ExportCode {
+        Success,
+        InternalFailure,
+        InvalidParam,
+        InvalidCredentials,
+        ReadFailure,
+        UploadFailure,
+    }
+
+    struct ExportStatus {
+        code: ExportCode,
+        error: String,
+    }
+
     extern "Rust" {
-        fn export_file(fd: i32) -> bool;
+        fn export_file_aws(
+            fd: i32,
+            access_key: String,
+            secret_access_key: String,
+            session_token: String,
+            bucket_name: String,
+            prefix_path: String,
+            destination_path: String,
+        ) -> ExportStatus;
     }
 }
+
+// Re-export FFI types
+pub use ffi::ExportCode;
+pub use ffi::ExportStatus;

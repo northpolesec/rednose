@@ -17,6 +17,10 @@ load("@crate_index//:defs.bzl", "aliases", "all_crate_deps")
 load("@rules_cc//cc:defs.bzl", "objc_library", "cc_test")
 load("@rules_rust//rust:defs.bzl", "rust_static_library", "rust_test")
 
+package(
+    default_visibility = ["//:rednose_package_group"],
+)
+
 rust_cxx_bridge(
     name = "export_bridge",
     src = "src/export/bridge.rs",
@@ -43,7 +47,20 @@ cc_test(
         ":rednose_static",
         "@googletest//:gtest",
         "@googletest//:gtest_main",
+        ":macos_frameworks",
     ],
+)
+
+cc_library(
+    name = "macos_frameworks",
+    linkopts = select({
+        "@platforms//os:osx": [
+            "-framework Security",
+            "-framework CoreFoundation",
+        ],
+        "//conditions:default": [],
+    }),
+    target_compatible_with = ["@platforms//os:osx"],
 )
 
 rust_static_library(
@@ -57,6 +74,7 @@ rust_static_library(
     ) + select({
         "@platforms//os:osx": [
             ":macos_logging",
+            ":macos_frameworks",
         ],
         "//conditions:default": [],
     }),
@@ -72,5 +90,6 @@ rust_test(
         normal = True,
     ) + [
         ":macos_logging",
+        ":macos_frameworks",
     ]
 )
