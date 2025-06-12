@@ -15,7 +15,6 @@
 use crate::export::bridge::{ExportCode, ExportStatus};
 use crate::logging::*;
 
-use object_store::ObjectStore;
 use object_store::aws::{AmazonS3, AmazonS3Builder};
 use object_store::buffered::BufWriter;
 use object_store::path::Path;
