@@ -44,12 +44,6 @@ cc_test(
         "@googletest//:gtest",
         "@googletest//:gtest_main",
     ],
-    linkopts = select({
-        "//conditions:default": [],
-        "@bazel_tools//src/conditions:windows": [
-            "/DEFAULTLIB:ntdll.lib",
-        ],
-    }),
 )
 
 rust_static_library(

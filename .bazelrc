@@ -12,8 +12,3 @@ build:linux --copt=-Wall
 build:linux --cxxopt=-std=c++20
 build:linux --host_cxxopt=-std=c++20
 build:linux --per_file_copt=.*\.mm\$@-std=c++20
-
-build:windows --copt=/WX
-build:windows --cxxopt=/std:c++20
-build:windows --host_cxxopt=/std:c++20
-build:windows --per_file_copt=.*\.mm\$@/std:c++20
