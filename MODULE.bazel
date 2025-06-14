@@ -26,7 +26,7 @@ bazel_dep(name = "rules_rust", version = "0.61.0")
 rust = use_extension("@rules_rust//rust:extensions.bzl", "rust")
 rust.toolchain(
     edition = "2024",
-    versions = ["1.87.0"],
+    versions = ["1.86.0"],
 )
 
 # Rust crates
@@ -43,3 +43,15 @@ crate.from_cargo(
     ],
 )
 use_repo(crate, "crate_index")
+
+# Hedron's Compile Commands Extractor
+# Note: Moved to a fork because the original project's maintenance status is in limbo.
+# The maintainer claims to still be around, but nothing is getting merged:
+#   https://github.com/hedronvision/bazel-compile-commands-extractor/issues/232#issuecomment-2512931043
+#   https://github.com/hedronvision/bazel-compile-commands-extractor/issues/240
+bazel_dep(name = "hedron_compile_commands", dev_dependency = True)
+git_override(
+    module_name = "hedron_compile_commands",
+    commit = "f5fbd4cee671d8d908f37c83abaf70fba5928fc7",
+    remote = "https://github.com/mikael-s-persson/bazel-compile-commands-extractor.git",
+)
