@@ -78,6 +78,7 @@ rust_static_library(
         ],
         "//conditions:default": [],
     }),
+    visibility = ["//visibility:public"],
 )
 
 rust_test(
