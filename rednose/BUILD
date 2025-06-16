@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-load("@//:rust.bzl", "rust_cxx_bridge")
+load("//:rust.bzl", "rust_cxx_bridge")
 load("@crate_index//:defs.bzl", "aliases", "all_crate_deps")
 load("@rules_cc//cc:defs.bzl", "objc_library", "cc_test")
 load("@rules_rust//rust:defs.bzl", "rust_static_library", "rust_test")
@@ -27,6 +27,7 @@ rust_cxx_bridge(
     deps = [
         ":rednose_static",
     ],
+    visibility = ["//visibility:public"],
 )
 
 objc_library(

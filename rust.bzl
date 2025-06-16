@@ -15,7 +15,7 @@
 load("@bazel_skylib//rules:run_binary.bzl", "run_binary")
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
-def rust_cxx_bridge(name, src, deps = []):
+def rust_cxx_bridge(name, src, visibility, deps = []):
     """A macro defining a cxx bridge library
 
     This is adapted from the example on cxx.rs
@@ -52,9 +52,11 @@ def rust_cxx_bridge(name, src, deps = []):
         srcs = [src + ".cc"],
         deps = deps + [":%s/include" % name],
         linkstatic = True,
+        visibility = visibility,
     )
 
     cc_library(
         name = "%s/include" % name,
         hdrs = [src + ".h"],
+        visibility = visibility,
     )
