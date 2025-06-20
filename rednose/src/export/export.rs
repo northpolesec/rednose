@@ -13,7 +13,6 @@
 // limitations under the License.
 
 use crate::export::bridge::{ExportCode, ExportStatus};
-use crate::logging::*;
 
 use object_store::aws::{AmazonS3, AmazonS3Builder};
 use object_store::buffered::BufWriter;
@@ -34,8 +33,6 @@ pub fn export_file_aws(
     prefix_path: String,
     destination_path: String,
 ) -> ExportStatus {
-    rlog!("AWS export. fd: {fd}");
-
     let s3_store: AmazonS3 = match AmazonS3Builder::new()
         .with_bucket_name(bucket_name)
         .with_access_key_id(access_key)
