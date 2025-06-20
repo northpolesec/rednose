@@ -41,6 +41,12 @@ crate.from_cargo(
         # Keep this list in sync with the root Cargo.toml.
         "//rednose:Cargo.toml",
     ],
+    supported_platform_triples =  [
+        "aarch64-apple-darwin",
+        "aarch64-unknown-linux-gnu",
+        "x86_64-apple-darwin",
+        "x86_64-unknown-linux-gnu",
+    ],
 )
 use_repo(crate, "crate_index")
 
