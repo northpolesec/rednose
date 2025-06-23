@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::export::export::export_file_aws;
+use crate::export::export::{export_file_aws, export_file_gcp};
 
 #[cxx::bridge(namespace = "rednose")]
 mod ffi {
@@ -36,6 +36,14 @@ mod ffi {
             access_key: String,
             secret_access_key: String,
             session_token: String,
+            bucket_name: String,
+            prefix_path: String,
+            destination_path: String,
+        ) -> ExportStatus;
+
+        fn export_file_gcp(
+            fd: i32,
+            bearer_token: String,
             bucket_name: String,
             prefix_path: String,
             destination_path: String,

@@ -16,7 +16,9 @@ use crate::export::bridge::{ExportCode, ExportStatus};
 
 use object_store::aws::{AmazonS3, AmazonS3Builder};
 use object_store::buffered::BufWriter;
+use object_store::gcp::{GcpCredential, GoogleCloudStorage, GoogleCloudStorageBuilder};
 use object_store::path::Path;
+use object_store::{ObjectStore, StaticCredentialProvider};
 use std::fs::File;
 use std::io::{BufReader, Read};
 use std::os::unix::io::FromRawFd;
@@ -49,6 +51,57 @@ pub fn export_file_aws(
         }
     };
 
+    match get_runtime() {
+        Ok(rt) => rt.block_on(async_export_file(
+            fd,
+            prefix_path,
+            destination_path,
+            Arc::new(s3_store),
+        )),
+        Err(e) => e,
+    }
+}
+
+pub fn export_file_gcp(
+    fd: i32,
+    bearer_token: String,
+    bucket_name: String,
+    prefix_path: String,
+    destination_path: String,
+) -> ExportStatus {
+    let gcp_store: GoogleCloudStorage = match GoogleCloudStorageBuilder::new()
+        .with_bucket_name(bucket_name)
+        .with_credentials(Arc::new(StaticCredentialProvider::new(GcpCredential {
+            bearer: bearer_token,
+        })))
+        .build()
+    {
+        Ok(store) => store,
+        Err(e) => {
+            return ExportStatus {
+                code: ExportCode::InvalidCredentials,
+                error: format!("Failed to create GCS client: {}", e),
+            };
+        }
+    };
+
+    match get_runtime() {
+        Ok(rt) => rt.block_on(async_export_file(
+            fd,
+            prefix_path,
+            destination_path,
+            Arc::new(gcp_store),
+        )),
+        Err(e) => e,
+    }
+}
+
+async fn async_export_file(
+    fd: i32,
+    prefix_path: String,
+    destination_path: String,
+    store: Arc<dyn ObjectStore>,
+) -> ExportStatus {
     let full_destination_path = match prefix_path.is_empty() {
         true => destination_path,
         false => [prefix_path, destination_path].join("/"),
@@ -56,30 +109,12 @@ pub fn export_file_aws(
     println!("Full dest path: {full_destination_path}");
     let path = Path::from(full_destination_path);
 
-    let rt = match tokio::runtime::Builder::new_current_thread()
-        .enable_all()
-        .build()
-    {
-        Ok(rt) => rt,
-        Err(e) => {
-            return ExportStatus {
-                code: ExportCode::InternalFailure,
-                error: format!("Failed to create Tokio runtime: {}", e),
-            };
-        }
-    };
-
-    rt.block_on(async_export_file_aws(s3_store, fd, path))
-}
-
-async fn async_export_file_aws(s3_store: AmazonS3, fd: i32, path: Path) -> ExportStatus {
     // Create a File from the raw file descriptor
     let file = unsafe { File::from_raw_fd(fd) };
     let mut reader = BufReader::new(file);
 
-    // Create a buffered writer for S3 upload. This requires wrapping the s3_store in an Arc.
-    let s3_store_arc = Arc::new(s3_store);
-    let mut buf_writer = BufWriter::new(s3_store_arc, path.clone());
+    // Create a buffered writer for upload.
+    let mut buf_writer = BufWriter::new(store, path.clone());
 
     // Stream data in 256KB chunks
     const CHUNK_SIZE: usize = 256 * 1024;
@@ -124,5 +159,18 @@ async fn async_export_file_aws(s3_store: AmazonS3, fd: i32, path: Path) -> Expor
     ExportStatus {
         code: ExportCode::Success,
         error: String::new(),
+    }
+}
+
+fn get_runtime() -> Result<tokio::runtime::Runtime, ExportStatus> {
+    match tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+    {
+        Ok(rt) => Ok(rt),
+        Err(e) => Err(ExportStatus {
+            code: ExportCode::InternalFailure,
+            error: format!("Failed to create Tokio runtime: {}", e),
+        }),
     }
 }
