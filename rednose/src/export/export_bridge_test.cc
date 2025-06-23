@@ -14,9 +14,44 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <sys/fcntl.h>
 
 #include "rednose/src/export/bridge.rs.h"
 
-TEST(ExportBridgeFFI, ExportBasic) {
-  // Noop
+TEST(ExportBridgeFFI, ExportBasicGCP) {
+    // int fd = open("/tmp/rand.foo.bin", O_RDONLY);
+    // ASSERT_GE(fd, 0) << "Failed to open test file...\n";
+
+    // rednose::ExportStatus status =
+    //     rednose::export_file_gcp(
+    //       fd,
+    //       "<token>",
+    //       "<bucket>",
+    //       "",
+    //       "rand_foo.bin");
+
+    // printf("Got GCP status: %d: %s\n", status.code, status.error.c_str());
+    // EXPECT_EQ(status.code, rednose::ExportCode::Success);
+
+    // close(fd);
+}
+
+TEST(ExportBridgeFFI, ExportBasicAWS) {
+    // int fd = open("/tmp/rand.foo.bin", O_RDONLY);
+    // ASSERT_GE(fd, 0) << "Failed to open test file...\n";
+
+    // rednose::ExportStatus status =
+    //     rednose::export_file_aws(
+    //       fd,
+    //       "<access_token>",
+    //       "<secret_token>",
+    //       "<session_token>",
+    //       "<bucket>",
+    //       "",
+    //       "rand_foo.bin");
+
+    // printf("Got AWS status: %d: %s\n", status.code, status.error.c_str());
+    // EXPECT_EQ(status.code, rednose::ExportCode::Success);
+
+    // close(fd);
 }
