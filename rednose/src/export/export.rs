@@ -106,7 +106,6 @@ async fn async_export_file(
         true => destination_path,
         false => [prefix_path, destination_path].join("/"),
     };
-    println!("Full dest path: {full_destination_path}");
     let path = Path::from(full_destination_path);
 
     // Create a File from the raw file descriptor
