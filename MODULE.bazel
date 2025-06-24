@@ -28,6 +28,7 @@ rust.toolchain(
     edition = "2024",
     versions = ["1.86.0"],
 )
+use_repo(rust, "rust_toolchains")
 
 # Rust crates
 crate = use_extension("@rules_rust//crate_universe:extension.bzl", "crate")
