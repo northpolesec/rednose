@@ -40,6 +40,7 @@ crate.from_cargo(
 
         # Keep this list in sync with the root Cargo.toml.
         "//rednose:Cargo.toml",
+        "//rednose/lib/rednose_macro:Cargo.toml",
     ],
     supported_platform_triples =  [
         "aarch64-apple-darwin",

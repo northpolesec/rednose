@@ -12,10 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-[workspace]
-members = [
-  # The below list must be kept in sync with the crates_repository.manifest
-  # key in the root MODULE.bazel file.
-  "rednose",
-  "rednose/lib/rednose_macro",
-]
+load("@crate_index//:defs.bzl", "aliases", "all_crate_deps")
+load("@rules_rust//rust:defs.bzl", "rust_proc_macro")
+
+package(
+    default_visibility = ["//:rednose_package_group"],
+)
+
+rust_proc_macro(
+    name = "rednose_macro",
+    srcs = glob(["src/**/*.rs"]),
+    aliases = aliases(),
+    proc_macro_deps = all_crate_deps(
+        proc_macro = True,
+    ),
+    deps = all_crate_deps(
+        normal = True,
+    ),
+    visibility = ["//visibility:public"],
+)

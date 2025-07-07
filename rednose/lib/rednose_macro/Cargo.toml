@@ -12,10 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-[workspace]
-members = [
-  # The below list must be kept in sync with the crates_repository.manifest
-  # key in the root MODULE.bazel file.
-  "rednose",
-  "rednose/lib/rednose_macro",
-]
+[package]
+name = "rednose_macro"
+version = "0.1.0"
+edition = "2024"
+description = "Proc-macros for rednose"
+
+[lib]
+name = "rednose_macro"
+path = "src/lib.rs"
+proc-macro = true
+
+[dependencies]
+syn = "2.0"
+quote = "1.0"
+proc-macro2 = "1.0.93"
