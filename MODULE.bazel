@@ -38,9 +38,9 @@ crate.from_cargo(
     manifests = [
         "//:Cargo.toml",
 
-        # Keep this list in sync with the root Cargo.toml.
-        "//rednose:Cargo.toml",
-        "//rednose/lib/rednose_macro:Cargo.toml",
+        # All project crates should be listed here.
+        "//crates/rednose:Cargo.toml",
+        "//crates/rednose_macro:Cargo.toml",
     ],
     supported_platform_triples =  [
         "aarch64-apple-darwin",

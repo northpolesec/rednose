@@ -16,7 +16,7 @@
 #include <gtest/gtest.h>
 #include <sys/fcntl.h>
 
-#include "rednose/src/export/bridge.rs.h"
+#include "crates/rednose/src/export/bridge.rs.h"
 
 TEST(ExportBridgeFFI, ExportBasicGCP) {
     // int fd = open("/tmp/rand.foo.bin", O_RDONLY);
