@@ -69,7 +69,7 @@ rust_static_library(
     srcs = glob(["src/**/*.rs"]),
     proc_macro_deps = all_crate_deps(
         proc_macro = True,
-    ),
+    ) + ["//rednose/lib/rednose_macro:rednose_macro"],
     deps = all_crate_deps(
         normal = True,
     ) + select({
