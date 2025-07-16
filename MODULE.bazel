@@ -33,13 +33,14 @@ rust.toolchain(
 crate = use_extension("@rules_rust//crate_universe:extension.bzl", "crate")
 
 crate.from_cargo(
-    name = "crate_index",
+    name = "northpolesec_rednose_crate_index",
     cargo_lockfile = "//:Cargo.lock",
     manifests = [
         "//:Cargo.toml",
 
         # Keep this list in sync with the root Cargo.toml.
         "//rednose:Cargo.toml",
+        "//rednose/lib/rednose_macro:Cargo.toml",
     ],
     supported_platform_triples =  [
         "aarch64-apple-darwin",
@@ -48,7 +49,7 @@ crate.from_cargo(
         "x86_64-unknown-linux-gnu",
     ],
 )
-use_repo(crate, "crate_index")
+use_repo(crate, "northpolesec_rednose_crate_index")
 
 # Hedron's Compile Commands Extractor
 # Note: Moved to a fork because the original project's maintenance status is in limbo.

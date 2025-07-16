@@ -1086,7 +1086,17 @@ version = "0.1.0"
 dependencies = [
  "cxx",
  "object_store",
+ "rednose_macro",
  "tokio",
+]
+
+[[package]]
+name = "rednose_macro"
+version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]

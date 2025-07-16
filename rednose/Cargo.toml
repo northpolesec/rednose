@@ -22,9 +22,9 @@ rust-version = "1.86.0"
 [lib]
 name = "rednose"
 path = "src/lib.rs"
-crate-type = ["staticlib"]
 
 [dependencies]
 cxx = "1.0.158"
 object_store = { version = "0.12.1", features = ["aws", "gcp"] }
+rednose_macro = { path = "lib/rednose_macro" }
 tokio = { version = "1.45.1", default-features = false, features = ["rt"] }

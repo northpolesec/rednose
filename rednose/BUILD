@@ -13,7 +13,7 @@
 # limitations under the License.
 
 load("//:rust.bzl", "rust_cxx_bridge")
-load("@crate_index//:defs.bzl", "aliases", "all_crate_deps")
+load("@northpolesec_rednose_crate_index//:defs.bzl", "aliases", "all_crate_deps")
 load("@rules_cc//cc:defs.bzl", "objc_library", "cc_test")
 load("@rules_rust//rust:defs.bzl", "rust_static_library", "rust_test")
 
@@ -69,7 +69,7 @@ rust_static_library(
     srcs = glob(["src/**/*.rs"]),
     proc_macro_deps = all_crate_deps(
         proc_macro = True,
-    ),
+    ) + ["//rednose/lib/rednose_macro:rednose_macro"],
     deps = all_crate_deps(
         normal = True,
     ) + select({
