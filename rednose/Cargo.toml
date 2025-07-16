@@ -22,7 +22,6 @@ rust-version = "1.86.0"
 [lib]
 name = "rednose"
 path = "src/lib.rs"
-#crate-type = ["staticlib"]
 
 [dependencies]
 cxx = "1.0.158"

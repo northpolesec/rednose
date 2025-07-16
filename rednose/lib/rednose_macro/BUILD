@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-load("@crate_index//:defs.bzl", "aliases", "all_crate_deps")
+load("@northpolesec_rednose_crate_index//:defs.bzl", "aliases", "all_crate_deps")
 load("@rules_rust//rust:defs.bzl", "rust_proc_macro")
 
 package(
