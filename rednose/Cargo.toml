@@ -24,6 +24,7 @@ name = "rednose"
 path = "src/lib.rs"
 
 [dependencies]
+arrow = "55.2.0"
 cxx = "1.0.158"
 object_store = { version = "0.12.1", features = ["aws", "gcp"] }
 rednose_macro = { path = "lib/rednose_macro" }
