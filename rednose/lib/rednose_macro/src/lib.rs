@@ -34,6 +34,20 @@ pub fn arrow_table(_: TokenStream, input: TokenStream) -> TokenStream {
     let impl_table_builder_trait = generate::impls::table_builder_trait(&table);
 
     let code = quote! {
+        #[allow(unused_imports)]
+        use arrow::datatypes::{DataType, Field, Schema, TimeUnit};
+        #[allow(unused_imports)]
+        use arrow::array::{
+            Array, ArrayBuilder, BooleanBuilder, GenericStringArray, Int64Array,
+            Int64Builder, StringArray, StringBuilder, StructArray, StructBuilder,
+            Float64Array, Float64Builder, TimestampMicrosecondArray, TimestampMicrosecondBuilder,
+            ListBuilder, RecordBatch
+        };
+        #[allow(unused_imports)]
+        use arrow::record_batch::RecordBatch;
+        #[allow(unused_imports)]
+        use arrow::error::ArrowError;
+
         #struct_table
 
         #impl_table
