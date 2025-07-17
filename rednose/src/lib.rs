@@ -12,6 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+pub use arrow::{
+    array::{ArrayBuilder, StructBuilder},
+    datatypes::{Field, Schema, TimeUnit},
+};
+
 pub mod export;
 pub mod logging;
 pub mod telemetry;
