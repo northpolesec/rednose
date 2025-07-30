@@ -24,7 +24,10 @@ name = "rednose"
 path = "src/lib.rs"
 
 [dependencies]
+anyhow = "1.0.95"
+arrow = "53.3.0"
 cxx = "1.0.158"
 object_store = { version = "0.12.1", features = ["aws", "gcp"] }
+parquet = "53.3.0"
 rednose_macro = { path = "lib/rednose_macro" }
 tokio = { version = "1.45.1", default-features = false, features = ["rt"] }
