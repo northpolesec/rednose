@@ -15,7 +15,7 @@
 load("//:rust.bzl", "rust_cxx_bridge")
 load("@northpolesec_rednose_crate_index//:defs.bzl", "aliases", "all_crate_deps")
 load("@rules_cc//cc:defs.bzl", "objc_library", "cc_test")
-load("@rules_rust//rust:defs.bzl", "rust_static_library", "rust_test")
+load("@rules_rust//rust:defs.bzl", "rust_library", "rust_static_library", "rust_test")
 
 package(
     default_visibility = ["//:rednose_package_group"],
@@ -69,7 +69,25 @@ rust_static_library(
     srcs = glob(["src/**/*.rs"]),
     proc_macro_deps = all_crate_deps(
         proc_macro = True,
-    ) + ["//rednose/lib/rednose_macro:rednose_macro"],
+    ) + ["//crates/rednose_macro:rednose_macro"],
+    deps = all_crate_deps(
+        normal = True,
+    ) + select({
+        "@platforms//os:osx": [
+            ":macos_logging",
+            ":macos_frameworks",
+        ],
+        "//conditions:default": [],
+    }),
+    visibility = ["//visibility:public"],
+)
+
+rust_library(
+    name = "rednose",
+    srcs = glob(["src/**/*.rs"]),
+    proc_macro_deps = all_crate_deps(
+        proc_macro = True,
+    ) + ["//crates/rednose_macro:rednose_macro"],
     deps = all_crate_deps(
         normal = True,
     ) + select({

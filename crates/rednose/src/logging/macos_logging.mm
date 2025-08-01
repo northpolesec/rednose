@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "rednose/src/logging/macos_logging.h"
+#include "crates/rednose/src/logging/macos_logging.h"
 
 #include <os/log.h>
 
